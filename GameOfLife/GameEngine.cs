@@ -11,6 +11,7 @@ namespace GameOfLife
 {
     public class GameEngine
     {
+        public uint CurrentGeneration { get; private set; }
         private bool[,] field;
         private int cols;
         private int rows;
@@ -81,7 +82,7 @@ namespace GameOfLife
             }
 
             field = newfield;
-
+            CurrentGeneration++;
         }
 
         public bool[,] GetCurrentGeneration()
@@ -95,7 +96,7 @@ namespace GameOfLife
                 }
             }
 
-            return field;
+            return result;
         }
 
 
