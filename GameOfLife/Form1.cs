@@ -16,9 +16,7 @@ namespace GameOfLife
         private int currentGeneration = 0;
         private Graphics graphics;
         private int resolution;
-        private bool[,] field;
-        private int cols;
-        private int rows;
+        
 
         public Form1()
         {
@@ -39,16 +37,9 @@ namespace GameOfLife
             resolution = (int)nudResolution.Value;
             rows = pictureBox1.Height / resolution;
             cols = pictureBox1.Width / resolution;
-            field = new bool[cols, rows];
+            
 
-            Random random = new Random();
-            for (int x = 0; x < cols; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
-                    field[x, y] = random.Next((int)nudDensity.Value) == 0;
-                }
-            }
+            
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(pictureBox1.Image);
@@ -60,61 +51,9 @@ namespace GameOfLife
 
         }
 
-        private void NextGeneration()
-        {
-            graphics.Clear(Color.Black);
+        
 
-            var newfield = new bool[cols, rows];
-
-            for (int x = 0; x < cols; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
-                    var neighbourCount = CountNeighbours(x, y);
-                    var hasLife = field[x, y];
-
-                    if (!hasLife && neighbourCount == 3)
-                        newfield[x, y] = true;
-
-                    else if (hasLife && (neighbourCount < 2 || neighbourCount > 3))
-                        newfield[x, y] = false;
-
-                    else
-                        newfield[x,y] = field[x, y];
-
-                    if (hasLife)
-                        graphics.FillRectangle(Brushes.Crimson, x * resolution, y * resolution, resolution, resolution);
-                }
-            }
-
-            field = newfield;
-            pictureBox1.Refresh();
-            
-        }
-
-        private int CountNeighbours(int x , int y)
-        {
-            int count = 0;
-
-            for (int i = -1; i < 2; i++)
-            {
-                for (int j = -1; j < 2; j++)
-                {
-                    var col = (x + i + cols) % cols;
-                    var row = (y + j + rows) % rows;
-
-                    var isSelfChecking = col == x && row == y;
-                    var hasLife = field[col, row];
-
-                    if (hasLife && !isSelfChecking)
-                        count++;
-
-                    
-                }
-            }
-
-            return count;
-        }
+        
 
         private void StopGame()
         {
@@ -173,6 +112,11 @@ namespace GameOfLife
         private void Form1_Load(object sender, EventArgs e)
         {
             Text = $"Generation {currentGeneration}";
+        }
+
+        private void nudDensity_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

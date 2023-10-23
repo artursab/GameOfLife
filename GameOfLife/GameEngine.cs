@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using System.Windows.Forms;
+
+namespace GameOfLife
+{
+    public class GameEngine
+    {
+        private bool[,] field;
+        private int cols;
+        private int rows;
+        private Random random = new Random();
+
+        public GameEngine(int rows, int cols, int density) 
+        {
+            this.rows = rows;
+            this.cols = cols;
+            field = new bool[cols, rows];
+
+            for (int x = 0; x < cols; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    field[x, y] = random.Next(density) == 0;
+                }
+            }
+        }
+
+        private int CountNeighbours(int x, int y)
+        {
+            int count = 0;
+
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    var col = (x + i + cols) % cols;
+                    var row = (y + j + rows) % rows;
+
+                    var isSelfChecking = col == x && row == y;
+                    var hasLife = field[col, row];
+
+                    if (hasLife && !isSelfChecking)
+                        count++;
+
+
+                }
+            }
+
+            return count;
+        }
+
+        public void NextGeneration()
+        {
+            
+
+            var newfield = new bool[cols, rows];
+
+            for (int x = 0; x < cols; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    var neighbourCount = CountNeighbours(x, y);
+                    var hasLife = field[x, y];
+
+                    if (!hasLife && neighbourCount == 3)
+                        newfield[x, y] = true;
+
+                    else if (hasLife && (neighbourCount < 2 || neighbourCount > 3))
+                        newfield[x, y] = false;
+                    else
+                        newfield[x, y] = field[x, y];
+
+                   
+                }
+            }
+
+            field = newfield;
+
+        }
+
+        public bool[,] GetCurrentGeneration()
+        {
+            var result = new bool[cols, rows];
+            for (int x = 0; x < cols; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    result[x,y] = field[x,y];
+                }
+            }
+
+            return field;
+        }
+
+
+    }
+}
