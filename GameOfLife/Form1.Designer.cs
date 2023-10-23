@@ -96,6 +96,11 @@
             // nudDensity
             // 
             this.nudDensity.Location = new System.Drawing.Point(14, 97);
+            this.nudDensity.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
             this.nudDensity.Minimum = new decimal(new int[] {
             2,
             0,
@@ -177,9 +182,8 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Game Of Life";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

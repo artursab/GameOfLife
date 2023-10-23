@@ -99,6 +99,16 @@ namespace GameOfLife
             return result;
         }
 
+        private bool ValidateCellPosition(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < cols && y < rows;
+        }
+
+        private void UpdateCell(int x, int y, bool state)
+        {
+            if(ValidateCellPosition(x, y))
+                field[x,y] = state;
+        }
 
     }
 }

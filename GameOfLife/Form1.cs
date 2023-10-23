@@ -38,7 +38,7 @@ namespace GameOfLife
             (
                 rows: pictureBox1.Height / resolution,
                 cols: pictureBox1.Width / resolution,
-                (int)nudDensity.Value
+                density: (int)(nudDensity.Minimum) + (int)nudDensity.Maximum - (int)nudDensity.Value
             );
 
             Text = $"Generation {gameEngine.CurrentGeneration}";
@@ -69,7 +69,7 @@ namespace GameOfLife
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            NextGeneration();
+            DrawNextGeneration();
         }
 
         private void bStart_Click(object sender, EventArgs e)
@@ -80,6 +80,28 @@ namespace GameOfLife
         private void bStop_Click(object sender, EventArgs e)
         {
             StopGame();
+        }
+
+
+        private void DrawNextGeneration()
+        {
+            graphics.Clear(Color.Black);
+
+            var field = gameEngine.GetCurrentGeneration();
+
+            for (int x = 0; x < field.GetLength(0); x++)
+            {
+                for (int y = 0; y < field.GetLength(1); y++)
+                {
+                    if (field[x, y])
+                        graphics.FillRectangle(Brushes.Crimson, x * resolution, y * resolution, resolution, resolution);
+                }
+            }
+
+
+            pictureBox1.Refresh();
+            Text = $"Generation {gameEngine.CurrentGeneration}";
+            gameEngine.NextGeneration();
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -111,11 +133,7 @@ namespace GameOfLife
         //    //return x >= 0 && y >= 0 && x < cols && y < rows;
         //}
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Text = $"Generation {gameEngine.CurrentGeneration}";
-        }
-
+        
         private void nudDensity_ValueChanged(object sender, EventArgs e)
         {
 
