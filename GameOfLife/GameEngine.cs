@@ -17,7 +17,7 @@ namespace GameOfLife
         private int rows;
         private Random random = new Random();
 
-        public GameEngine(int rows, int cols, int density) 
+        public GameEngine(int rows, int cols, int density)
         {
             this.rows = rows;
             this.cols = cols;
@@ -58,7 +58,7 @@ namespace GameOfLife
 
         public void NextGeneration()
         {
-            
+
 
             var newfield = new bool[cols, rows];
 
@@ -77,7 +77,7 @@ namespace GameOfLife
                     else
                         newfield[x, y] = field[x, y];
 
-                   
+
                 }
             }
 
@@ -92,7 +92,7 @@ namespace GameOfLife
             {
                 for (int y = 0; y < rows; y++)
                 {
-                    result[x,y] = field[x,y];
+                    result[x, y] = field[x, y];
                 }
             }
 
@@ -106,8 +106,18 @@ namespace GameOfLife
 
         private void UpdateCell(int x, int y, bool state)
         {
-            if(ValidateCellPosition(x, y))
-                field[x,y] = state;
+            if (ValidateCellPosition(x, y))
+                field[x, y] = state;
+        }
+
+        private void AddCell(int x, int y)
+        {
+            UpdateCell(x, y, state: true);
+        }
+
+        private void RemoveCell(int x, int y)
+        {
+            UpdateCell(x, y, state: false);
         }
 
     }
