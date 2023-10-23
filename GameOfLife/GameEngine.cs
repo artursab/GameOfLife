@@ -15,14 +15,14 @@ namespace GameOfLife
         private bool[,] field;
         private int cols;
         private int rows;
-        private Random random = new Random();
+        
 
         public GameEngine(int rows, int cols, int density)
         {
             this.rows = rows;
             this.cols = cols;
             field = new bool[cols, rows];
-
+            Random random = new Random();
             for (int x = 0; x < cols; x++)
             {
                 for (int y = 0; y < rows; y++)
@@ -110,12 +110,12 @@ namespace GameOfLife
                 field[x, y] = state;
         }
 
-        private void AddCell(int x, int y)
+        public void AddCell(int x, int y)
         {
             UpdateCell(x, y, state: true);
         }
 
-        private void RemoveCell(int x, int y)
+        public void RemoveCell(int x, int y)
         {
             UpdateCell(x, y, state: false);
         }
