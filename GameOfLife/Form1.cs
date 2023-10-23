@@ -89,7 +89,7 @@ namespace GameOfLife
 
             field = newfield;
             pictureBox1.Refresh();
-            Text = $"Genration {++currentGeneration}";
+            
         }
 
         private int CountNeighbours(int x , int y)
@@ -106,7 +106,7 @@ namespace GameOfLife
                     var isSelfChecking = col == x && row == y;
                     var hasLife = field[col, row];
 
-                    if (hasLife)
+                    if (hasLife && !isSelfChecking)
                         count++;
 
                     
