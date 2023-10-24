@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,10 +9,21 @@ namespace ConsoleOfLife
 {
     class Program
     {
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool ShowWindow (IntPtr hWnd, int nCmdShow);
+
+        private const int MAXIMIZE = 3;
+
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
             Console.ReadLine();
+            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            ShowWindow(GetConsoleWindow(), MAXIMIZE);
+
+            Console.CursorVisible = false;
             Console.SetCursorPosition(0, 0);
 
             var gameEngine = new GameEngine
